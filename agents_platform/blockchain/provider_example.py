@@ -1,5 +1,5 @@
 import provider
-from contract_analysis import get_contract_by_address
+from contract_analysis import print_contract_history
 
 
 # good for parsing: aragon, storm, civic, eos, storj
@@ -20,6 +20,6 @@ if results.get('token'):
     reputation = provider.reputation(token_address)
     print(links, reputation, sep='\n')
 if results.get('ico'):
-    plot_drawed = get_contract_by_address(results['ico'])
+    plot_drawed = print_contract_history(results['ico'])
 
     # print(info, links, reputation, sep='\n')

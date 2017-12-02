@@ -8,12 +8,17 @@ import matplotlib.pyplot as plt
 import seaborn
 
 
+def get_web3_provider():
+    web3_provider = 'https://mainnet.infura.io/H10eLeRZQOrGY8600d1Y'
+    web3 = Web3(HTTPProvider(web3_provider))
+
+    return web3
+
+
 def get_transaction_list_of_contract(address):
     try:
-        web3_provider = 'https://mainnet.infura.io/H10eLeRZQOrGY8600d1Y'
+        web3 = get_web3_provider()
         key = 'F3C5GJBZ611TXR77PFERXB56R5VD1P9YUD'
-
-        web3 = Web3(HTTPProvider(web3_provider))
 
         abi = json.loads(Contract(address=address, api_key=key).get_abi())
 
@@ -26,6 +31,7 @@ def get_transaction_list_of_contract(address):
 
 
 def get_transaction_data_for_chart(address):
+    web3 = get_web3_provider()
     transactions = get_transaction_list_of_contract(address)
 
     data_frame = pd.DataFrame(transactions)
