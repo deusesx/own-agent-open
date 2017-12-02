@@ -2,7 +2,7 @@ from flask import Flask
 from flask import jsonify
 from flask import render_template
 from flask import request
-
+from agents_platform.blockchain.contract_analysis import get_transaction_data_for_chart_by_name
 app = Flask(__name__)
 
 
@@ -34,7 +34,7 @@ def make_ico_profile_widget():
 @app.route('/diagram/', methods=['GET'])
 def make_diagram_widget():
     name = request.args.get('token_name', None)
-    labels, data = get_transaction_data_for_chart_by_name(name);
+    labels, data = get_transaction_data_for_chart_by_name(name)
 
     if labels is not None:
         return render_template('diagram.html', values=data, labels=labels)

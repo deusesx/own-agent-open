@@ -1,5 +1,5 @@
-import provider
-from contract_analysis import print_contract_history
+from agents_platform.blockchain import provider
+from agents_platform.blockchain.contract_analysis import print_contract_history
 
 
 # good for parsing: aragon, storm, civic, eos, storj

@@ -6,7 +6,10 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn
-import provider
+from agents_platform.blockchain import provider
+
+
+_api_key = 'F3C5GJBZ611TXR77PFERXB56R5VD1P9YUD'
 
 
 def get_web3_provider():
@@ -16,12 +19,15 @@ def get_web3_provider():
     return web3
 
 
+def get_data_of_contract(address):
+    web3 = get_web3_provider()
+    key = _api_key
+    abi = json.loads(Contract(address=address, api_key=key).get_abi())
+
+
 def get_transaction_list_of_contract(address):
     try:
-        web3 = get_web3_provider()
-        key = 'F3C5GJBZ611TXR77PFERXB56R5VD1P9YUD'
-
-        abi = json.loads(Contract(address=address, api_key=key).get_abi())
+        key = _api_key
 
         account = Account(address=address, api_key=key)
         transactions = account.get_all_transactions(offset=10000, sort='asc', internal=True)
