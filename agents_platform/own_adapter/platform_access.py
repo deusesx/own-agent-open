@@ -4,10 +4,9 @@ import json
 import sys
 import urllib
 from urllib import request
+from settings import OWN_PLATFORM_ADDRESS
 
 import logger
-
-OWN_PLATFORM_ADDRESS = 'http://188.130.155.101:9000'
 
 
 class PlatformAccess:
