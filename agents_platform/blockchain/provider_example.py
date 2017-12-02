@@ -1,7 +1,7 @@
 import provider
 
-# good for parsing: aragon, storm, civic, eos, storj
-token_name = 'leverj'
+# good for parsing: aragon, storm, civic, eos, storj, leverj
+token_name = 'eos'
 
 # some tokens don't have a shortcut name at etherscan
 # in this cases it's better to specify its address manually
