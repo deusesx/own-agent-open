@@ -1,4 +1,6 @@
 import provider
+from contract_analysis import get_contract_by_address
+
 
 # good for parsing: aragon, storm, civic, eos, storj
 token_name = 'leverj'
@@ -13,11 +15,11 @@ results = provider.search(token_name)
 symbol = provider.symbol(token_name)
 print(symbol)
 if results.get('token'):
-	token_address = results['token']
-	links = provider.links(token_address)
-	reputation = provider.reputation(token_address)
-	print(links, reputation, sep='\n')
+    token_address = results['token']
+    links = provider.links(token_address)
+    reputation = provider.reputation(token_address)
+    print(links, reputation, sep='\n')
 if results.get('ico'):
-	plot_drawed = provider.plot_ico_cummulative(results['ico'])
+    plot_drawed = get_contract_by_address(results['ico'])
 
-# print(info, links, reputation, sep='\n')
+    # print(info, links, reputation, sep='\n')
