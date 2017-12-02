@@ -11,9 +11,8 @@ from own_adapter.agent import Agent
 from own_adapter.board import Board
 from own_adapter.element import Element
 from own_adapter.platform_access import PlatformAccess
-
-AGENT_LOGIN = ''
-AGENT_PASSWORD = ''
+from settings import AGENT_LOGIN, AGENT_PASSWORD
+from settings import APP_NAME
 
 
 def __do_something(element):
@@ -34,7 +33,7 @@ def __run_on_element(element):
     try:
         __do_something(element)
     except Exception as ex:
-        logger.exception('helloworld', 'Error: could not process an element. Element id: {}. Exception message: {}.\n'
+        logger.exception(APP_NAME, 'Error: could not process an element. Element id: {}. Exception message: {}.\n'
                                        '{}'.format(element.get_id(), str(ex), traceback.format_exc()))
 
 
@@ -56,7 +55,7 @@ def periodical_update():
         boards = agent.get_boards()
         for board in boards:
             __run_on_board(board)
-        logger.info('helloworld', 'Daily news update is done.')
+        logger.info(APP_NAME, 'Daily news update is done.')
 
 
 def get_agent():
@@ -76,7 +75,7 @@ def on_websocket_message(ws, message):
     content_type = message_dict['contentType']
     message_type = content_type.replace('application/vnd.uberblik.', '')
 
-    logger.debug('helloworld', message)
+    logger.debug(APP_NAME, message)
 
     if message_type == 'liveUpdateElementCaptionEdited+json':
         element_caption = message_dict['newCaption']
@@ -94,17 +93,17 @@ def on_websocket_message(ws, message):
 
 def on_websocket_error(ws, error):
     """Logs websocket errors"""
-    logger.error('helloworld', error)
+    logger.error(APP_NAME, error)
 
 
 def on_websocket_open(ws):
     """Logs websocket openings"""
-    logger.info('helloworld', 'Websocket is open')
+    logger.info(APP_NAME, 'Websocket is open')
 
 
 def on_websocket_close(ws):
     """Logs websocket closings"""
-    logger.info('helloworld', 'Websocket is closed')
+    logger.info(APP_NAME, 'Websocket is closed')
 
 
 def open_websocket():
@@ -134,7 +133,7 @@ def run():
                 websocket_thread = threading.Thread(target=open_websocket)
                 websocket_thread.start()
             except Exception as e:
-                logger.exception('helloworld', 'Could not open a websocket. Exception message: {}'.format(str(e)))
+                logger.exception(APP_NAME, 'Could not open a websocket. Exception message: {}'.format(str(e)))
 
         # periodical updates
         if updater_thread is None or not updater_thread.is_alive():
@@ -142,7 +141,7 @@ def run():
                 updater_thread = threading.Thread(target=periodical_update)
                 updater_thread.start()
             except Exception as e:
-                logger.exception('helloworld', 'Could not start updater. Exception message: {}'.format(str(e)))
+                logger.exception(APP_NAME, 'Could not start updater. Exception message: {}'.format(str(e)))
 
         # wait until next check
         time.sleep(10)
