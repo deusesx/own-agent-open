@@ -6,6 +6,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn
+import provider
 
 
 def get_web3_provider():
@@ -28,6 +29,13 @@ def get_transaction_list_of_contract(address):
         return transactions
     except:
         return None
+
+
+def get_transaction_data_for_chart_by_name(token_name):
+    results = provider.search(token_name)
+    if results.get('ico'):
+        labels, values = get_transaction_data_for_chart(results['ico'])
+        return labels, values
 
 
 def get_transaction_data_for_chart(address):
