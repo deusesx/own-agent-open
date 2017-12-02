@@ -3,6 +3,7 @@ import re
 import threading
 import time
 import traceback
+import urllib
 
 import websocket
 
@@ -11,21 +12,24 @@ from own_adapter.agent import Agent
 from own_adapter.board import Board
 from own_adapter.element import Element
 from own_adapter.platform_access import PlatformAccess
+
+
 from settings import AGENT_LOGIN, AGENT_PASSWORD
 from settings import APP_NAME
+from settings import WIDGET_SERVER_URL
+
+
+def __add_token_profile_widget(element, token_name):
+    # put a URL to an element
+    params = urllib.urlencode({'token_short_name': token_name})
+    url = "{0}/token_profile/?{1}".format(
+        WIDGET_SERVER_URL, params)
+    element.put_embedding_link(url)
 
 
 def __do_something(element):
     """Write your code here"""
-
-    # examples:
-    # put a message to a board
-    message = 'Hello world!'
-    element.get_board().put_message(message)
-
-    # put a URL to an element
-    url = 'https://www.own.space/'
-    element.put_link(url)
+    element.get_board().put_message('Hello world!')
 
 
 def __run_on_element(element):
@@ -80,7 +84,7 @@ def on_websocket_message(ws, message):
     if message_type == 'liveUpdateElementCaptionEdited+json':
         element_caption = message_dict['newCaption']
         # looking for elements that target our agent
-        if re.match(pattern='@helloworld:.+', string=element_caption):
+        if re.match(pattern='@ico_bot:.+', string=element_caption):
             # create instances of Board and Element to work with them
             element_id = message_dict['path']
             news_agent = get_agent()
@@ -88,7 +92,8 @@ def on_websocket_message(ws, message):
             board = Board.get_board_by_id(board_id, news_agent.get_platform_access(), need_name=False)
             element = Element.get_element_by_id(element_id, news_agent.get_platform_access(), board)
             if element is not None:
-                __run_on_element(element)
+                token_name = element_caption.split(':')[1].strip()
+                __add_token_profile_widget(element, token_name)
 
 
 def on_websocket_error(ws, error):
