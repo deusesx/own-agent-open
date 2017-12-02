@@ -1,7 +1,7 @@
 from flask import Flask
+from flask import jsonify
 from flask import render_template
 from flask import request
-from flask import jsonify
 
 app = Flask(__name__)
 
@@ -31,10 +31,10 @@ def make_ico_profile_widget():
         return jsonify({'status': 400,
                         'error_message': 'No token short name provided!'})
 
-@app.route('/diagram/')
+@app.route('/diagram/', methods=['GET'])
 def make_diagram_widget():
-    labels = ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"];
-    data = [12, 19, 3, 5, 2, 3];
+    name = request.args.get('token_name', None)
+    labels, data = get_transaction_data_for_chart_by_name(name);
 
     if labels is not None:
         return render_template('diagram.html', values=data, labels=labels)
