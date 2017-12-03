@@ -14,11 +14,8 @@ from own_adapter.element import Element
 from own_adapter.platform_access import PlatformAccess
 from settings import WIDGET_SERVER_URL
 from settings import EMBEDDING_URL
-
-
-AGENT_LOGIN = 'yulduzfattakhova@gmail.com'
-AGENT_PASSWORD = 'poze9n1n'
-
+from settings import AGENT_LOGIN
+from settings import AGENT_PASSWORD
 
 def __do_something(element, **kwargs):
     """Write your code here"""
