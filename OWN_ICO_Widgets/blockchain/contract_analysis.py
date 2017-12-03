@@ -118,6 +118,6 @@ def reputation(token_name):
 # usage:
 # ico_chart_data('aragon')
 # holders_chart_data('aragon', 5)
-# token_summary_data('aragon')
+# token_summary_data('aragon') returns price_usd, price_btc, total_volume, market_cap, change_percent
 # project_links('aragon')
 # reputation('aragon')
