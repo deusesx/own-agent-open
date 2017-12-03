@@ -12,14 +12,14 @@ def get_web3_provider():
     web3 = Web3(HTTPProvider(web3_provider))
     return web3
 
+
 def ico_chart_data(token_name):
     key = 'F3C5GJBZ611TXR77PFERXB56R5VD1P9YUD'
     try:
         address = provider.search(token_name)['ico']
         web3 = get_web3_provider()
         account = Account(address=address, api_key=key)
-        transactions = account.get_all_transactions(offset=10000, sort='asc', internal=True)
-
+        transactions = account.get_all_transactions(offset=1000, sort='asc', internal=True)
         data_frame = pd.DataFrame(transactions)
         data_frame = data_frame[(data_frame['isError'] != '1')]
         data_frame['datetime'] = pd.to_datetime(data_frame['timeStamp'], unit='s')
@@ -37,10 +37,7 @@ def ico_chart_data(token_name):
         cumulative_values = values.cumsum()
         total = values.sum()
         cumulative_values = cumulative_values * 100 / total
-
-        high_line = [(0.8 * x + 20) for x in labels]
-        low_line = [(10/8 * x - 25) if (10/8 * x - 25) > 0 else 0 for x in labels]
-        return labels, cumulative_values, high_line, low_line
+        return labels, cumulative_values
     except:
         return None
 
@@ -85,6 +82,7 @@ def token_summary_data(token_name):
     except:
         return None
 
+
 def project_links(token_name):
     etherscan_link = 'https://etherscan.io/token/'
     try:
@@ -103,6 +101,7 @@ def project_links(token_name):
         return items
     except:
         return None
+
 
 # returns a reputation of token from etherscan
 def reputation(token_name):

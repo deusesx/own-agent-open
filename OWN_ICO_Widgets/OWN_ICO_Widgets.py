@@ -47,24 +47,33 @@ def make_ico_info_widget():
         return jsonify({'status': 400,
                         'error_message': 'Wrong token name provided!'})
 
+
 @app.route('/ico_statistic/', methods=['GET'])
 def make_ico_chart_widget():
     name = request.args.get('token_name', None)
-    labels, cumulative_values, high_line, low_line = ico_chart_data(name)
+    labels, cumulative_values = ico_chart_data(name)
 
     if name is not None:
         return render_template("ico_history.html",
                                token_name=name,
                                labels=labels,
-                               cumulative_values=cumulative_values,
-                               high_line=high_line,
-                               low_line=low_line
+                               cumulative_values=cumulative_values
                                )
     else:
         return jsonify({'status': 400,
                         'error_message': 'Wrong token name provided!'})
 
 
+@app.route('/holders/', methods=['GET'])
+def make_holders_widget():
+    name = request.args.get('token_name', None)
+    labels, data = holders_chart_data(name, 2)
+
+    if labels is not None:
+        return render_template('pie_chart.html', values=data, labels=labels)
+    else:
+        return jsonify({'status': 400,
+                        'error_message': 'Wrong token name provided!'})
 
 
 
@@ -89,19 +98,6 @@ def make_ico_chart_widget():
 #     else:
 #         return jsonify({'status': 400,
 #                         'error_message': 'No token short name provided!'})
-#
-#
-#
-# @app.route('/holders/', methods=['GET'])
-# def make_holders_widget():
-#     name = request.args.get('token_name', None)
-#     labels, data = holders_chart_data(name)
-#
-#     if labels is not None:
-#         return render_template('pie_chart.html', values=data, labels=labels)
-#     else:
-#         return jsonify({'status': 400,
-#                         'error_message': 'Wrong token name provided!'})
 #
 # @app.route('/token_profile/', methods=['GET'])
 # def make_token_profile_widget():
@@ -129,4 +125,4 @@ def make_ico_chart_widget():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='80')
+    app.run(host='0.0.0.0', port='81')
