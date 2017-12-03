@@ -16,8 +16,8 @@ from settings import WIDGET_SERVER_URL
 from settings import EMBEDDING_URL
 
 
-AGENT_LOGIN = 'yulduzfattakhova@gmail.com'
-AGENT_PASSWORD = 'poze9n1n'
+AGENT_LOGIN = 'samigullin.art@gmail.com'
+AGENT_PASSWORD = 'deusdeus'
 
 
 def __do_something(element, **kwargs):
