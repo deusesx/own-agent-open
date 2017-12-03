@@ -72,28 +72,6 @@ def reputation(token_name):
     except:
         return None
 
-def pie_chart_data(token_name, count):
-    etherscan_link = 'https://etherscan.io/token/tokenholderchart/{}?range={}'
-    try:
-        response = requests.get(etherscan_link.format(token_name, count)).content.decode('utf-8')
-        soup = BeautifulSoup(response, 'html.parser')
-        tds = soup.find(id='ContentPlaceHolder1_resultrows').find('tbody').find_all('td')
-        labels = []
-        values = []
-        top_percentage = 0
-        for i in range(count):
-            address = tds[i*4+1].find('a').text
-            percentage = tds[i*4+3].text[:-1]
-            percentage = float(percentage[:percentage.find('.') + 3])
-            labels.append(address)
-            values.append(percentage)
-            top_percentage += percentage
-        labels.append('others')
-        values.append(100 - top_percentage)
-        return labels, values
-    except:
-        return None
-
 
 # makes an ethereum address from token name
 def address(token_name):
@@ -105,6 +83,3 @@ def address(token_name):
         return address
     except:
         return None
-
-if __name__ == '__main__':
-    print(pie_chart_data('0xa74476443119A942dE498590Fe1f2454d7D4aC0d', 5))

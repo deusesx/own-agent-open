@@ -66,6 +66,29 @@ def get_transaction_data_for_chart(address):
     return labels, cumulative_values
 
 
+def pie_chart_data(token_name, count):
+    etherscan_link = 'https://etherscan.io/token/tokenholderchart/{}?range={}'
+    try:
+        response = requests.get(etherscan_link.format(token_name, count)).content.decode('utf-8')
+        soup = BeautifulSoup(response, 'html.parser')
+        tds = soup.find(id='ContentPlaceHolder1_resultrows').find('tbody').find_all('td')
+        labels = []
+        values = []
+        top_percentage = 0
+        for i in range(count):
+            address = tds[i*4+1].find('a').text
+            percentage = tds[i*4+3].text[:-1]
+            percentage = float(percentage[:percentage.find('.') + 3])
+            labels.append(address)
+            values.append(percentage)
+            top_percentage += percentage
+        labels.append('others')
+        values.append(100 - top_percentage)
+        return labels, values
+    except:
+        return None
+
+
 # def print_contract_history(address):
 #     labels, values = get_transaction_data_for_chart(address)
 #
