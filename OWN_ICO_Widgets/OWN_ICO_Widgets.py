@@ -111,4 +111,4 @@ def make_ico_info_widget():
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port='81')
+    app.run(host='0.0.0.0', port='80')
