@@ -3,11 +3,7 @@ from etherscan.accounts import Account
 from etherscan.contracts import Contract
 import json
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn
-from agents_platform.blockchain import provider
-
+from blockchain import provider
 
 _api_key = 'F3C5GJBZ611TXR77PFERXB56R5VD1P9YUD'
 
@@ -70,23 +66,19 @@ def get_transaction_data_for_chart(address):
     return labels, cumulative_values
 
 
-def print_contract_history(address):
-    labels, values = get_transaction_data_for_chart(address)
-
-    fig, ax = plt.subplots()
-    high_line = [(0.8 * x + 20) for x in labels]
-    low_line = [(10 / 8 * x - 25) if (10 / 8 * x - 25) > 0 else 0 for x in labels]
-    top_line = [100 for x in labels]
-    # Plot lines on graph
-    l1, = ax.plot(labels, high_line, '#33CC14')
-    l2, = ax.plot(labels, low_line, '#FFFF00')
-    l3, = ax.plot(labels, values)
-    plt.fill_between(labels, top_line, high_line, alpha=.5, color='#33CC14')
-    plt.fill_between(labels, high_line, low_line, alpha=.5, color='#FFFF00')
-    plt.fill_between(labels, low_line, alpha=.5, color='#FF0000')
-
-    fig.savefig("picture.png", bbox_inches='tight')
-
-
-if __name__ == "__main__":
-    print_contract_history("0x960b236A07cf122663c4303350609A66A7B288C0")
+# def print_contract_history(address):
+#     labels, values = get_transaction_data_for_chart(address)
+#
+#     fig, ax = plt.subplots()
+#     high_line = [(0.8 * x + 20) for x in labels]
+#     low_line = [(10 / 8 * x - 25) if (10 / 8 * x - 25) > 0 else 0 for x in labels]
+#     top_line = [100 for x in labels]
+#     # Plot lines on graph
+#     l1, = ax.plot(labels, high_line, '#33CC14')
+#     l2, = ax.plot(labels, low_line, '#FFFF00')
+#     l3, = ax.plot(labels, values)
+#     plt.fill_between(labels, top_line, high_line, alpha=.5, color='#33CC14')
+#     plt.fill_between(labels, high_line, low_line, alpha=.5, color='#FFFF00')
+#     plt.fill_between(labels, low_line, alpha=.5, color='#FF0000')
+#
+#     fig.savefig("picture.png", bbox_inches='tight')

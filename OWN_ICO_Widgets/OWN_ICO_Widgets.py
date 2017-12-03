@@ -3,7 +3,7 @@ from flask import Flask
 from flask import jsonify
 from flask import render_template
 from flask import request
-from agents_platform.blockchain.contract_analysis import get_transaction_data_for_chart_by_name
+from blockchain.contract_analysis import get_transaction_data_for_chart_by_name
 
 HOST = os.environ['ASUDO_WIDGETS_HOST']
 PORT = os.environ['ASUDO_WIDGETS_PORT']
