@@ -46,7 +46,7 @@ def __do_something(element, **kwargs):
     __add_image(im2, "https://aragon.one/static/718178fb-Maria.png")
 
 
-def __add_widget(element, token_name, w_type="token_profile"):
+def __add_widget(element, token_name, w_type="ico_info"):
     # put a URL to an element
     params = urllib.parse.urlencode({'token_name': token_name})
     widget_url = "{0}/{2}/?{1}".format(
