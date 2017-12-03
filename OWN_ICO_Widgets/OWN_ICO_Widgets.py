@@ -1,8 +1,13 @@
+import os
 from flask import Flask
 from flask import jsonify
 from flask import render_template
 from flask import request
 from agents_platform.blockchain.contract_analysis import get_transaction_data_for_chart_by_name
+
+HOST = os.environ['ASUDO_WIDGETS_HOST']
+PORT = os.environ['ASUDO_WIDGETS_PORT']
+
 app = Flask(__name__)
 
 
@@ -21,6 +26,7 @@ def make_token_profile_widget():
         return jsonify({'status': 400,
                         'error_message': 'No token short name provided!'})
 
+
 @app.route('/ico_profile/', methods=['GET'])
 def make_ico_profile_widget():
     name = request.args.get('token_name', None)
@@ -30,6 +36,7 @@ def make_ico_profile_widget():
     else:
         return jsonify({'status': 400,
                         'error_message': 'No token short name provided!'})
+
 
 @app.route('/diagram/', methods=['GET'])
 def make_diagram_widget():
@@ -42,5 +49,6 @@ def make_diagram_widget():
         return jsonify({'status': 400,
                         'error_message': 'No token short name provided!'})
 
+
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port='8080')
+    app.run(host=HOST, port=PORT)

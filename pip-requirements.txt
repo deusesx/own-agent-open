@@ -2,3 +2,5 @@ requests==2.13.0
 urllib3==1.22
 websocket-client==0.44.0
 flask
+web3
+etherscan
