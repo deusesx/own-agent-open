@@ -36,8 +36,9 @@ def __do_something(element, **kwargs):
     w4 = board.add_element(5,6,3,2, 'One more widget')
 
     __add_widget(w1, token_name)
-    __add_widget(w2, token_name, 'diagram')
+    __add_widget(w2, token_name, '')
     __add_widget(w3, token_name, 'ico_widget')
+    __add_widget(w4, token_name, 'holders')
 
     im1 = board.add_element(1, 2, 1, 1, '')
     im2 = board.add_element(1, 3, 1, 1, '')
