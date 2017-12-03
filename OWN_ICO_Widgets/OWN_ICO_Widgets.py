@@ -6,6 +6,7 @@ from flask import request
 from blockchain.git_analytics import get_git_commit_widget
 from blockchain.contract_analysis import token_summary_data
 from blockchain.provider import symbol
+from blockchain.contract_analysis import reputation
 
 from blockchain.contract_analysis import holders_chart_data
 
@@ -92,6 +93,35 @@ def make_git_stat_widget():
     else:
         return jsonify({'status': 400,
                         'error_message': 'Wrong token name provided!'})
+
+
+@app.route('/reputation/', methods=['GET'])
+def make_reputation_widget():
+    name = request.args.get('token_name', None)
+    state = reputation(name)
+
+    if state is not None:
+        color = 'black'
+        if state == 'OK ':
+            color = 'green'
+        if state =='NEUTRAL ':
+            color = 'yellow'
+        if(state =='SUSPICIOUS '):
+            color = 'blue'
+        if (state == 'UNSAFE '):
+            color = 'red'
+        print(color)
+        print(state)
+        return render_template("reputation.html",
+                               token_name=name,
+                               color=color,
+                               state=state
+                               )
+    else:
+        return jsonify({'status': 400,
+                        'error_message': 'Wrong token name provided!'})
+
+
 
 
 

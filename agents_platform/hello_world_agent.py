@@ -16,8 +16,8 @@ from settings import WIDGET_SERVER_URL
 from settings import EMBEDDING_URL
 
 
-AGENT_LOGIN = 'samigullin.art@gmail.com'
-AGENT_PASSWORD = 'deusdeus'
+AGENT_LOGIN = 'yulduzfattakhova@gmail.com'
+AGENT_PASSWORD = 'poze9n1n'
 
 
 def __do_something(element, **kwargs):
@@ -38,9 +38,10 @@ def __do_something(element, **kwargs):
     w6 = board.add_element(1,9,3,1, 'Social activity')
 
     __add_widget(w1, token_name)
-    __add_widget(w2, token_name, '')
-    __add_widget(w3, token_name, 'ico_widget')
-    __add_widget(w4, token_name, 'holders')
+    __add_widget(w2, token_name, 'ico_statistic')
+    __add_widget(w3, token_name, 'git_stat')
+    __add_widget(w4, token_name, 'reputation')
+
 
     im1 = board.add_element(1, 2, 1, 1, '')
     im2 = board.add_element(1, 3, 1, 1, '')
