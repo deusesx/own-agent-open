@@ -12,4 +12,5 @@ OWN_PLATFORM_ADDRESS = 'http://188.130.155.101:9000'
 APP_NAME = 'ASUDO'
 
 # widget server address
-WIDGET_SERVER_URL = 'http://http://13.58.202.105'
+WIDGET_SERVER_URL = 'http://13.58.202.105'
+EMBEDDING_URL="https://embed.own.space/pagescale100/?page="
