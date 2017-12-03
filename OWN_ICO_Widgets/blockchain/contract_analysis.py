@@ -37,7 +37,10 @@ def ico_chart_data(token_name):
         cumulative_values = values.cumsum()
         total = values.sum()
         cumulative_values = cumulative_values * 100 / total
-        return labels, cumulative_values
+
+        high_line = [(0.8 * x + 20) for x in labels]
+        low_line = [(10/8 * x - 25) if (10/8 * x - 25) > 0 else 0 for x in labels]
+        return labels, cumulative_values, high_line, low_line
     except:
         return None
 
