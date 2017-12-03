@@ -56,14 +56,21 @@ body{
 
   <tr style="border: 1px solid #ddd;">
       <td style="text-align: right"><img src="https://files.coinmarketcap.com/static/img/coins/64x64/anoncoin.png" alt="Mountain View"></td>
-        <td>Anoncoin (ANC)</td>
-              <td>Anoncoin (ANC)</td>
+      <td>
+          <div>
+              {{ token_name }}({{ short_name }})
+          </div>
+          <div style="color:{{ color }};">
+          ${{ price_usd }} USD ({{ change_percent }}%)
+          </div>
+      </td>
+      <td></td>
   </tr>
   <tr style="text-align: center;background: #566979;
     color: white;">
-    <td style="width: 30%;">USD PRICE</td>
+    <td style="width: 30%;">TOTAL VOLUME</td>
     <td style="width: 33%;">MARKET CAP</td>
-    <td style="width: 33%;">VOLUME (24H)</td>
+    <td style="width: 33%;">BITCOIN PRICE</td>
   </tr>
   <tr style="
     text-align: center;
@@ -73,9 +80,9 @@ body{
     font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
 
 ">
-    <td style="    border: 1px solid gainsboro;">525</td>
-    <td style="padding: 15px 10px;     border: 1px solid gainsboro;">$1.05 M USD</td>
-    <td style="    border: 1px solid gainsboro;">$2.91 K USD</td>
+    <td style="    border: 1px solid gainsboro;">{{ total_volume }}</td>
+    <td style="padding: 15px 10px;     border: 1px solid gainsboro;">${{ market_cap }} USD</td>
+    <td style="    border: 1px solid gainsboro;">{{ price_btc }} BTC</td>
   </tr>
 </table>
 

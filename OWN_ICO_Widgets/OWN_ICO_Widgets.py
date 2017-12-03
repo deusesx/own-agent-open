@@ -3,13 +3,11 @@ from flask import Flask
 from flask import jsonify
 from flask import render_template
 from flask import request
-from blockchain.contract_analysis import get_transaction_data_for_chart_by_name
 
-HOST = os.environ['ASUDO_WIDGETS_HOST']
-PORT = os.environ['ASUDO_WIDGETS_PORT']
+from OWN_ICO_Widgets.blockchain.contract_analysis import token_summary_data
+from OWN_ICO_Widgets.blockchain.provider import symbol
 
 app = Flask(__name__)
-
 
 @app.route('/')
 def hello_world():
@@ -37,7 +35,34 @@ def make_ico_profile_widget():
         return jsonify({'status': 400,
                         'error_message': 'No token short name provided!'})
 
+@app.route('/ico_info/', methods=['GET'])
+def make_ico_info_widget():
+    name = request.args.get('token_name', None)
+    price_usd, price_btc, total_volume, market_cap, change_percent = token_summary_data(name)
+    short_name = symbol(name)
+    color = None
+    if change_percent>0:
+        color = "green"
+    elif change_percent==0:
+        color = "yellow"
+    else:
+        color = "red"
+    if name is not None:
+        return render_template("index.html",
+                               token_name=name,
+                               color = color,
+                               short_name=short_name,
+                               price_usd=price_usd,
+                               price_btc=price_btc,
+                               total_volume=total_volume,
+                               market_cap = market_cap,
+                               change_percent = change_percent
+                               )
+    else:
+        return jsonify({'status': 400,
+                        'error_message': 'No token short name provided!'})
 
+'''
 @app.route('/diagram/', methods=['GET'])
 def make_diagram_widget():
     name = request.args.get('token_name', None)
@@ -48,7 +73,7 @@ def make_diagram_widget():
     else:
         return jsonify({'status': 400,
                         'error_message': 'No token short name provided!'})
-
+'''
 
 if __name__ == '__main__':
-    app.run(host=HOST, port=PORT)
+    app.run(host='127.0.0.1', port='8080')
