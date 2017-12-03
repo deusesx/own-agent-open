@@ -12,32 +12,63 @@ from own_adapter.agent import Agent
 from own_adapter.board import Board
 from own_adapter.element import Element
 from own_adapter.platform_access import PlatformAccess
-
-
-from settings import AGENT_LOGIN, AGENT_PASSWORD
-from settings import APP_NAME
 from settings import WIDGET_SERVER_URL
+from settings import EMBEDDING_URL
 
 
-def __add_token_profile_widget(element, token_name):
-    # put a URL to an element
-    params = urllib.urlencode({'token_short_name': token_name})
-    url = "{0}/token_profile/?{1}".format(
-        WIDGET_SERVER_URL, params)
-    element.put_embedding_link(url)
+AGENT_LOGIN = 'samigullin.art@gmail.com'
+AGENT_PASSWORD = 'deusdeus'
 
 
-def __do_something(element):
+def __do_something(element, **kwargs):
     """Write your code here"""
-    element.get_board().put_message('Hello world!')
+    token_name=kwargs.get('token_name', None)
+    if token_name is None:
+        raise Exception()
+
+    message = 'Searching data about {}'.format(token_name)
+    board = element.get_board()
+    board.put_message(message)
+
+    w1 = board.add_element(2,1,6,3, 'Company profile')
+    w2 = board.add_element(1,4,5,3, 'ICO activity')
+    w3 = board.add_element(1,7,4,2, 'Current projects activity')
+    w4 = board.add_element(6,4,2,3, 'Predictive analytics')
+    w5 = board.add_element(5,8,3,2, 'One more widget')
+    w6 = board.add_element(1,9,3,1, 'Social activity')
+
+    __add_widget(w1, token_name)
+    __add_widget(w2, token_name, '')
+    __add_widget(w3, token_name, 'ico_widget')
+    __add_widget(w4, token_name, 'holders')
+
+    im1 = board.add_element(1, 2, 1, 1, '')
+    im2 = board.add_element(1, 3, 1, 1, '')
+
+    __add_image(im1, "https://aragon.one/static/fa649d7f-Luis.png")
+    __add_image(im2, "https://aragon.one/static/718178fb-Maria.png")
 
 
-def __run_on_element(element):
+def __add_widget(element, token_name, w_type="ico_info"):
+    # put a URL to an element
+    params = urllib.parse.urlencode({'token_name': token_name})
+    widget_url = "{0}/{2}/?{1}".format(
+        WIDGET_SERVER_URL, params, w_type)
+    url = "{0}{1}".format(EMBEDDING_URL, widget_url)
+    element.put_link(url)
+
+
+def __add_image(element, image_url):
+    url = "{0}{1}".format(EMBEDDING_URL, image_url)
+    element.put_link(url)
+
+
+def __run_on_element(element, **kwargs):
     """Running on a target element"""
     try:
-        __do_something(element)
+        __do_something(element, **kwargs)
     except Exception as ex:
-        logger.exception(APP_NAME, 'Error: could not process an element. Element id: {}. Exception message: {}.\n'
+        logger.exception('helloworld', 'Error: could not process an element. Element id: {}. Exception message: {}.\n'
                                        '{}'.format(element.get_id(), str(ex), traceback.format_exc()))
 
 
@@ -59,7 +90,7 @@ def periodical_update():
         boards = agent.get_boards()
         for board in boards:
             __run_on_board(board)
-        logger.info(APP_NAME, 'Daily news update is done.')
+        logger.info('helloworld', 'Daily news update is done.')
 
 
 def get_agent():
@@ -79,12 +110,12 @@ def on_websocket_message(ws, message):
     content_type = message_dict['contentType']
     message_type = content_type.replace('application/vnd.uberblik.', '')
 
-    logger.debug(APP_NAME, message)
+    logger.debug('helloworld', message)
 
     if message_type == 'liveUpdateElementCaptionEdited+json':
         element_caption = message_dict['newCaption']
         # looking for elements that target our agent
-        if re.match(pattern='@ico_bot:.+', string=element_caption):
+        if re.match(pattern='@helloworld:.+', string=element_caption):
             # create instances of Board and Element to work with them
             element_id = message_dict['path']
             news_agent = get_agent()
@@ -92,23 +123,23 @@ def on_websocket_message(ws, message):
             board = Board.get_board_by_id(board_id, news_agent.get_platform_access(), need_name=False)
             element = Element.get_element_by_id(element_id, news_agent.get_platform_access(), board)
             if element is not None:
-                token_name = element_caption.split(':')[1].strip()
-                __add_token_profile_widget(element, token_name)
+                name = element_caption.split(":")[1].strip()
+                __run_on_element(element, token_name=name)
 
 
 def on_websocket_error(ws, error):
     """Logs websocket errors"""
-    logger.error(APP_NAME, error)
+    logger.error('helloworld', error)
 
 
 def on_websocket_open(ws):
     """Logs websocket openings"""
-    logger.info(APP_NAME, 'Websocket is open')
+    logger.info('helloworld', 'Websocket is open')
 
 
 def on_websocket_close(ws):
     """Logs websocket closings"""
-    logger.info(APP_NAME, 'Websocket is closed')
+    logger.info('helloworld', 'Websocket is closed')
 
 
 def open_websocket():
@@ -138,7 +169,7 @@ def run():
                 websocket_thread = threading.Thread(target=open_websocket)
                 websocket_thread.start()
             except Exception as e:
-                logger.exception(APP_NAME, 'Could not open a websocket. Exception message: {}'.format(str(e)))
+                logger.exception('helloworld', 'Could not open a websocket. Exception message: {}'.format(str(e)))
 
         # periodical updates
         if updater_thread is None or not updater_thread.is_alive():
@@ -146,7 +177,7 @@ def run():
                 updater_thread = threading.Thread(target=periodical_update)
                 updater_thread.start()
             except Exception as e:
-                logger.exception(APP_NAME, 'Could not start updater. Exception message: {}'.format(str(e)))
+                logger.exception('helloworld', 'Could not start updater. Exception message: {}'.format(str(e)))
 
         # wait until next check
         time.sleep(10)

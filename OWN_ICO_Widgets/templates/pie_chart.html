@@ -2,19 +2,29 @@
 <html lang="en">
 <head>
    <meta charset="utf-8" />
-   <title>Chart.js </title>
+   <title>Main {{ token_name }} holders</title>
 
    <!-- import plugin script -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-
+<style>
+body{
+    background: white;
+}
+    #box{
+        margin: 0 auto;
+        max-width: 600px;
+    }
+</style>
 
 </head>
 <body>
+<div id="box">
 <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
 <script>
 var ctx = document.getElementById("myChart").getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'line',
+    type: 'pie',
     data: {
         labels: [
             {% for item in labels %}
@@ -25,7 +35,7 @@ var myChart = new Chart(ctx, {
             label: '# of Commits',
             data: [
                 {% for item in values %}
-                    "{{item}}",
+                    {{item}},
                 {% endfor %}
             ],
             backgroundColor: [
@@ -48,12 +58,10 @@ var myChart = new Chart(ctx, {
         }]
     },
     options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
+        title: {
+            fontSize:25,
+            display: true,
+            text: 'Main {{ token_name }} holders'
         }
     }
 });

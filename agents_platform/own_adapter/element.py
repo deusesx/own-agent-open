@@ -2,7 +2,6 @@ import json
 import urllib
 from datetime import datetime
 from urllib import request, error
-
 import requests
 
 import logger

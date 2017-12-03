@@ -1,9 +1,7 @@
 import json
 import requests
-from bs4 import BeautifulSoup
 
 
-# get trader info from coinmarketcap
 def symbol(token_name):
     cryptocompare_link = 'https://www.cryptocompare.com/api/autosuggest/all/?maxRows=1&q='
     try:
@@ -16,7 +14,6 @@ def symbol(token_name):
     except:
         return None
 
-# get ofiicial links from etherscan
 
 def search(query):
     search_link = 'https://etherscan.io/searchHandler?term='
@@ -38,48 +35,3 @@ def search(query):
                 found_best = True
             addresses.update({'token': results[key]})
     return addresses
-
-
-def links(token_name):
-    etherscan_link = 'https://etherscan.io/token/'
-    try:
-        response = requests.get(etherscan_link + token_name).content.decode('utf-8')
-        soup = BeautifulSoup(response, 'html.parser')
-        links = soup.find(id='ContentPlaceHolder1_tr_officialsite_2').find_all('a')
-        items = {}
-        for link in links:
-            title = link.get('data-original-title')
-            name = title[:title.find(':')].lower()
-            if name == 'coinmarketcap':
-                url = link.get('href')
-            else:
-                url = title[title.find(':') + 2:]
-            items.update({name: url})
-        return items
-    except:
-        return None
-
-# returns a reputation of token from etherscan
-def reputation(token_name):
-    etherscan_link = 'https://etherscan.io/token/'
-    try:
-        response = requests.get(etherscan_link + token_name).content.decode('utf-8')
-        soup = BeautifulSoup(response, 'html.parser')
-        reputation = soup.find('a', attrs={
-            'href':'https://etherscancom.freshdesk.com/support/solutions/articles/35000022146-etherscan-token-reputation-system'
-            }).text
-        return reputation
-    except:
-        return None
-
-
-# makes an ethereum address from token name
-def address(token_name):
-    etherscan_link = 'https://etherscan.io/token/'
-    try:
-        response = requests.get(etherscan_link + token_name).content.decode('utf-8')
-        soup = BeautifulSoup(response, 'html.parser')
-        address = soup.find(id='ContentPlaceHolder1_trContract').find('a').text
-        return address
-    except:
-        return None

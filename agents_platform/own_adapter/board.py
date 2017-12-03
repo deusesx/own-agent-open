@@ -203,12 +203,21 @@ class Board:
             add_name_request.get_method = lambda: http_method
             response = request.urlopen(add_name_request)
             response_status = response.getcode()
+            if response_status == 200:
+                raw_data = response.read()
+                data = json.loads(raw_data.decode('utf-8'))
+                print(data)
+                href = data['element']['_links'][0]['href']
+                element = Element(self.__platform_access, caption, href, self)
+                return element
             return response_status
+
         except urllib.error.HTTPError as e:
             logger.exception('own_adapter',
                              'Error: add element name {} to {} failed. Error type: {}'.format(caption, self.get_name(),
                                                                                               str(e)))
             return e.code
+
 
     def remove_element(self, element_url):
         """Removes an element from the board"""

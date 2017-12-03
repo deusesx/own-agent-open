@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>{{ token_name }} profile</title>
+    <style>
+
+
+#customers {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    max-width: 500px!important;
+    margin: auto;
+}
+table tr:last-child td:first-child {
+    border-bottom-left-radius: 1pt;
+}
+
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 1pt;
+}
+
+ #customers th {
+    border: 1px solid #ddd;
+    padding: 0.6pt;
+}
+
+#customers td {
+    padding: 0.6pt;
+}
+
+
+body{
+    background: white;
+    /*padding: 20%;*/
+}
+
+
+#customers th {
+    padding-top: 1pt;
+    padding-bottom: 1pt;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+</style>
+</head>
+<body>
+<table id="customers">
+
+  <tr style="border: 1px solid #ddd;">
+      <td style="text-align: right"><img src="https://files.coinmarketcap.com/static/img/coins/64x64/anoncoin.png" alt="Mountain View"></td>
+      <td>
+          <div>
+              {{ token_name }}({{ short_name }})
+          </div>
+          <div style="color:{{ color }};">
+          ${{ price_usd }} USD ({{ change_percent }}%)
+          </div>
+      </td>
+      <td></td>
+  </tr>
+  <tr style="text-align: center;background: #566979;
+    color: white;">
+    <td style="width: 31%;">TOTAL VOLUME</td>
+    <td style="width: 36%;">MARKET CAP</td>
+    <td style="width: 31%;">BITCOIN PRICE</td>
+  </tr>
+  <tr style="
+    text-align: center;
+    font-size: 12pt;
+    font-weight: 200;
+    padding: 1pt;
+    font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;">
+    <td style="border: 0.2pt solid gainsboro;width: 31%;">{{ total_volume }} <br>USD</td>
+    <td style="padding: 3pt 10px;border: 0.2pt solid gainsboro;width: 36%;">{{ market_cap }} <br>USD</td>
+    <td style="border: 0.2pt solid gainsboro;width: 31%;">{{ price_btc }} <br>BTC</td>
+  </tr>
+</table>
+
+
+</body>
+</html>
