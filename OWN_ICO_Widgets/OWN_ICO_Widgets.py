@@ -11,6 +11,10 @@ from blockchain.contract_analysis import holders_chart_data
 app = Flask(__name__)
 
 
+def pretty_numbers(value, r=2):
+    return '{:,}'.format(round(value, r)).replace(',', ' ')
+
+
 @app.route('/')
 def hello_world():
     return 'Hello World!'
@@ -31,11 +35,11 @@ def make_ico_info_widget():
                                token_name=name,
                                color = color,
                                short_name=short_name,
-                               price_usd=round(price_usd,2),
+                               price_usd=pretty_numbers(price_usd),
                                price_btc=price_btc,
-                               total_volume=round(total_volume,2),
-                               market_cap = round(market_cap,2),
-                               change_percent=round(change_percent,2),
+                               total_volume=pretty_numbers(total_volume),
+                               market_cap=pretty_numbers(market_cap, 0),
+                               change_percent=pretty_numbers(change_percent),
                                )
     else:
         return jsonify({'status': 400,
