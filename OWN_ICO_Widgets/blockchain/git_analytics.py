@@ -1,6 +1,5 @@
 import json
 import urllib.request
-from requests.auth import HTTPBasicAuth
 import pandas as pd
 import datetime
 

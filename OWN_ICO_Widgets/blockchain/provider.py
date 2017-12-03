@@ -1,6 +1,5 @@
 import json
 import requests
-from bs4 import BeautifulSoup
 
 
 def symbol(token_name):
@@ -14,6 +13,7 @@ def symbol(token_name):
         return symbol
     except:
         return None
+
 
 def search(query):
     search_link = 'https://etherscan.io/searchHandler?term='
