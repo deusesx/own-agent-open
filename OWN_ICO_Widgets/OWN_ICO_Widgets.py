@@ -31,11 +31,11 @@ def make_ico_info_widget():
                                token_name=name,
                                color = color,
                                short_name=short_name,
-                               price_usd=price_usd,
+                               price_usd=round(price_usd,2),
                                price_btc=price_btc,
-                               total_volume=total_volume,
-                               market_cap = market_cap,
-                               change_percent = change_percent
+                               total_volume=round(total_volume,2),
+                               market_cap = round(market_cap,2),
+                               change_percent=round(change_percent,2),
                                )
     else:
         return jsonify({'status': 400,
