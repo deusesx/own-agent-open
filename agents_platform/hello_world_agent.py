@@ -3,6 +3,7 @@ import re
 import threading
 import time
 import traceback
+import urllib
 
 import websocket
 
@@ -12,21 +13,23 @@ from own_adapter.board import Board
 from own_adapter.element import Element
 from own_adapter.platform_access import PlatformAccess
 
-AGENT_LOGIN = ''
-AGENT_PASSWORD = ''
+
+from settings import AGENT_LOGIN, AGENT_PASSWORD
+from settings import APP_NAME
+from settings import WIDGET_SERVER_URL
+
+
+def __add_token_profile_widget(element, token_name):
+    # put a URL to an element
+    params = urllib.urlencode({'token_short_name': token_name})
+    url = "{0}/token_profile/?{1}".format(
+        WIDGET_SERVER_URL, params)
+    element.put_embedding_link(url)
 
 
 def __do_something(element):
     """Write your code here"""
-
-    # examples:
-    # put a message to a board
-    message = 'Hello world!'
-    element.get_board().put_message(message)
-
-    # put a URL to an element
-    url = 'https://www.own.space/'
-    element.put_link(url)
+    element.get_board().put_message('Hello world!')
 
 
 def __run_on_element(element):
@@ -34,7 +37,7 @@ def __run_on_element(element):
     try:
         __do_something(element)
     except Exception as ex:
-        logger.exception('helloworld', 'Error: could not process an element. Element id: {}. Exception message: {}.\n'
+        logger.exception(APP_NAME, 'Error: could not process an element. Element id: {}. Exception message: {}.\n'
                                        '{}'.format(element.get_id(), str(ex), traceback.format_exc()))
 
 
@@ -56,7 +59,7 @@ def periodical_update():
         boards = agent.get_boards()
         for board in boards:
             __run_on_board(board)
-        logger.info('helloworld', 'Daily news update is done.')
+        logger.info(APP_NAME, 'Daily news update is done.')
 
 
 def get_agent():
@@ -76,12 +79,12 @@ def on_websocket_message(ws, message):
     content_type = message_dict['contentType']
     message_type = content_type.replace('application/vnd.uberblik.', '')
 
-    logger.debug('helloworld', message)
+    logger.debug(APP_NAME, message)
 
     if message_type == 'liveUpdateElementCaptionEdited+json':
         element_caption = message_dict['newCaption']
         # looking for elements that target our agent
-        if re.match(pattern='@helloworld:.+', string=element_caption):
+        if re.match(pattern='@ico_bot:.+', string=element_caption):
             # create instances of Board and Element to work with them
             element_id = message_dict['path']
             news_agent = get_agent()
@@ -89,22 +92,23 @@ def on_websocket_message(ws, message):
             board = Board.get_board_by_id(board_id, news_agent.get_platform_access(), need_name=False)
             element = Element.get_element_by_id(element_id, news_agent.get_platform_access(), board)
             if element is not None:
-                __run_on_element(element)
+                token_name = element_caption.split(':')[1].strip()
+                __add_token_profile_widget(element, token_name)
 
 
 def on_websocket_error(ws, error):
     """Logs websocket errors"""
-    logger.error('helloworld', error)
+    logger.error(APP_NAME, error)
 
 
 def on_websocket_open(ws):
     """Logs websocket openings"""
-    logger.info('helloworld', 'Websocket is open')
+    logger.info(APP_NAME, 'Websocket is open')
 
 
 def on_websocket_close(ws):
     """Logs websocket closings"""
-    logger.info('helloworld', 'Websocket is closed')
+    logger.info(APP_NAME, 'Websocket is closed')
 
 
 def open_websocket():
@@ -134,7 +138,7 @@ def run():
                 websocket_thread = threading.Thread(target=open_websocket)
                 websocket_thread.start()
             except Exception as e:
-                logger.exception('helloworld', 'Could not open a websocket. Exception message: {}'.format(str(e)))
+                logger.exception(APP_NAME, 'Could not open a websocket. Exception message: {}'.format(str(e)))
 
         # periodical updates
         if updater_thread is None or not updater_thread.is_alive():
@@ -142,7 +146,7 @@ def run():
                 updater_thread = threading.Thread(target=periodical_update)
                 updater_thread.start()
             except Exception as e:
-                logger.exception('helloworld', 'Could not start updater. Exception message: {}'.format(str(e)))
+                logger.exception(APP_NAME, 'Could not start updater. Exception message: {}'.format(str(e)))
 
         # wait until next check
         time.sleep(10)

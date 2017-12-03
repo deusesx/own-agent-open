@@ -137,6 +137,11 @@ class Element:
                              'Error: put link {} to {} failed. Error type: {}'.format(link, self.get_name(), str(e)))
             return 0
 
+    def put_embedding_link(self, link, default_image_url='https://www.own.space/images/other/htmlrefdefault.png'):
+        full_link = 'https://embed.own.space/pagescale100/?page={link}'.format(link=link)
+        self.put_link(self, full_link)
+
+
     def put_file(self, file_name, file_bytes):
         """Puts an arbitrary file to the element"""
         # use this for multipart/form-data
