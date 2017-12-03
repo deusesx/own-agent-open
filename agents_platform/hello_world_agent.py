@@ -39,6 +39,12 @@ def __do_something(element, **kwargs):
     __add_widget(w2, token_name, 'diagram')
     __add_widget(w3, token_name, 'ico_widget')
 
+    im1 = board.add_element(1, 2, 1, 1, '')
+    im2 = board.add_element(1, 3, 1, 1, '')
+
+    __add_image(im1, "https://aragon.one/static/fa649d7f-Luis.png")
+    __add_image(im2, "https://aragon.one/static/718178fb-Maria.png")
+
 
 def __add_widget(element, token_name, w_type="token_profile"):
     # put a URL to an element
@@ -46,6 +52,11 @@ def __add_widget(element, token_name, w_type="token_profile"):
     widget_url = "{0}/{2}/?{1}".format(
         WIDGET_SERVER_URL, params, w_type)
     url = "{0}{1}".format(EMBEDDING_URL, widget_url)
+    element.put_link(url)
+
+
+def __add_image(element, image_url):
+    url = "{0}{1}".format(EMBEDDING_URL, image_url)
     element.put_link(url)
 
 
