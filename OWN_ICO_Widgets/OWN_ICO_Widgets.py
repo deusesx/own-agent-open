@@ -7,6 +7,8 @@ from flask import request
 from blockchain.contract_analysis import token_summary_data
 from blockchain.provider import symbol
 
+from OWN_ICO_Widgets.blockchain.contract_analysis import holders_chart_data
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -60,7 +62,18 @@ def make_ico_info_widget():
                                )
     else:
         return jsonify({'status': 400,
-                        'error_message': 'No token short name provided!'})
+                        'error_message': 'Wrong token name provided!'})
+
+@app.route('/holders/', methods=['GET'])
+def make_holders_widget():
+    name = request.args.get('token_name', None)
+    labels, data = holders_chart_data(name)
+
+    if labels is not None:
+        return render_template('pie_chart.html', values=data, labels=labels)
+    else:
+        return jsonify({'status': 400,
+                        'error_message': 'Wrong token name provided!'})
 
 '''
 @app.route('/diagram/', methods=['GET'])
