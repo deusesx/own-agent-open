@@ -4,8 +4,8 @@ from flask import jsonify
 from flask import render_template
 from flask import request
 
-from OWN_ICO_Widgets.blockchain.contract_analysis import token_summary_data
-from OWN_ICO_Widgets.blockchain.provider import symbol
+from blockchain.contract_analysis import token_summary_data
+from blockchain.provider import symbol
 
 app = Flask(__name__)
 
