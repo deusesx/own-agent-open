@@ -17,16 +17,16 @@ var myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: [
-                              {% for item in labels %}
-                    "{{item}}",
-                  {% endfor %}
+            {% for item in labels %}
+                "{{item}}",
+            {% endfor %}
         ],
         datasets: [{
             label: '# of Commits',
             data: [
-                            {% for item in values %}
-                      "{{item}}",
-                    {% endfor %}
+                {% for item in values %}
+                    "{{item}}",
+                {% endfor %}
             ],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',

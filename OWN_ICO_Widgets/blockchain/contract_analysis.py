@@ -1,9 +1,8 @@
 from web3 import Web3, HTTPProvider
 from etherscan.accounts import Account
-from etherscan.contracts import Contract
 import json
 import pandas as pd
-import provider
+from . import provider
 import requests
 from bs4 import BeautifulSoup
 
