@@ -3,8 +3,10 @@ from flask import jsonify
 from flask import render_template
 from flask import request
 
+from blockchain.git_analytics import get_git_commit_widget
 from blockchain.contract_analysis import token_summary_data
 from blockchain.provider import symbol
+from blockchain.contract_analysis import reputation
 
 from blockchain.contract_analysis import holders_chart_data
 
@@ -76,6 +78,51 @@ def make_holders_widget():
                         'error_message': 'Wrong token name provided!'})
 
 
+@app.route('/git_stat/', methods=['GET'])
+def make_git_stat_widget():
+    name = request.args.get('token_name', None)
+    state, stars, forks, x, y = get_git_commit_widget(name)
+    if state:
+        return render_template("git_info.html",
+                               token_name=name,
+                               stars=stars,
+                               forks=forks,
+                               values=y,
+                               labels=x
+                               )
+    else:
+        return jsonify({'status': 400,
+                        'error_message': 'Wrong token name provided!'})
+
+
+@app.route('/reputation/', methods=['GET'])
+def make_reputation_widget():
+    name = request.args.get('token_name', None)
+    state = reputation(name)
+
+    if state is not None:
+        color = 'black'
+        if state == 'OK ':
+            color = 'green'
+        if state =='NEUTRAL ':
+            color = 'yellow'
+        if(state =='SUSPICIOUS '):
+            color = 'blue'
+        if (state == 'UNSAFE '):
+            color = 'red'
+        print(color)
+        print(state)
+        return render_template("reputation.html",
+                               token_name=name,
+                               color=color,
+                               state=state
+                               )
+    else:
+        return jsonify({'status': 400,
+                        'error_message': 'Wrong token name provided!'})
+
+
+
 
 
 
@@ -125,4 +172,4 @@ def make_holders_widget():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port='80')
+    app.run(host='0.0.0.0', port='82')

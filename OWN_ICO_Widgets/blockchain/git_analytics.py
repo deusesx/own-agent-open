@@ -41,7 +41,7 @@ def getRepoStatistics(company):
 def getRepoTimeLine(company, json_repo):
     time = []
     if(json_repo != 0):
-        for i in range(len(json_repo)):
+        for i in range(5):
             project = json_repo[i]['full_name'][len(company)+1:]
             if company in project:
                 commitsUrl = "https://api.github.com/repos/" + company +"/" + project + "/commits"
