@@ -8,6 +8,8 @@ from blockchain.provider import symbol
 
 from blockchain.contract_analysis import holders_chart_data
 
+from blockchain.contract_analysis import ico_chart_data
+
 app = Flask(__name__)
 
 
@@ -45,6 +47,22 @@ def make_ico_info_widget():
         return jsonify({'status': 400,
                         'error_message': 'Wrong token name provided!'})
 
+@app.route('/ico_statistic/', methods=['GET'])
+def make_ico_chart_widget():
+    name = request.args.get('token_name', None)
+    labels, cumulative_values, high_line, low_line = ico_chart_data(name)
+
+    if name is not None:
+        return render_template("ico_history.html",
+                               token_name=name,
+                               labels=labels,
+                               cumulative_values=cumulative_values,
+                               high_line=high_line,
+                               low_line=low_line
+                               )
+    else:
+        return jsonify({'status': 400,
+                        'error_message': 'Wrong token name provided!'})
 
 
 

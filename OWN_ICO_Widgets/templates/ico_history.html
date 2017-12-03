@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Creating a Line Chart using Chart.js</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Lato'>
+
+</head>
+
+<body>
+  <canvas id="densityChart" width="600" height="400"></canvas>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js'></script>
+
+    <script>
+        var densityCanvas = document.getElementById("densityChart");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+var lowData = {
+  label: 'Density of Planet (kg/m3)',
+  data: [
+      {% for item in low_line %}
+                {{item}},
+            {% endfor %}
+  ],
+  backgroundColor: '#ed3833',
+  borderWidth: 0,
+  yAxisID: "y-axis-density"
+};
+
+var densityData = {
+  label: 'Density of Planet (kg/m3)',
+  data: [
+      {% for item in high_line %}
+                {{item}},
+            {% endfor %}
+  ],
+  backgroundColor: '#ede943',
+  borderWidth: 0,
+  yAxisID: "y-axis-density"
+};
+
+var gravityData = {
+  label: 'Gravity of Planet (m/s2)',
+  data: [
+      {% for item in cumulative_values %}
+                {{item}},
+            {% endfor %}
+  ],
+  backgroundColor: '#00b3ed',
+  borderWidth: 0,
+  yAxisID: "y-axis-gravity"
+};
+
+var planetData = {
+  labels: [
+      {% for item in labels %}
+                "{{item}}",
+            {% endfor %}
+  ],
+  datasets: [densityData,lowData, gravityData]
+};
+
+var chartOptions = {
+  scales: {
+         xAxes: [{
+                ticks: {
+                  stepSize: 2,
+                  unitStepSize: 5
+                }
+              }],
+    yAxes: [{
+      id: "y-axis-density"
+    }, {
+      id: "y-axis-gravity"
+    }]
+  }
+};
+
+var barChart = new Chart(densityCanvas, {
+  type: 'line',
+  data: planetData,
+  options: chartOptions
+});
+    </script>
+
+</body>
+</html>
