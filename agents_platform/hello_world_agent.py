@@ -41,7 +41,7 @@ def __do_something(element, **kwargs):
     __add_widget(w2, token_name, 'ico_statistic')
     __add_widget(w3, token_name, 'git_stat')
     __add_widget(w4, token_name, 'reputation')
-
+    __add_widget(w5, token_name, 'holders')
 
     im1 = board.add_element(1, 2, 1, 1, '')
     im2 = board.add_element(1, 3, 1, 1, '')
