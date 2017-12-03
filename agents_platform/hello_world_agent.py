@@ -31,13 +31,16 @@ def __do_something(element, **kwargs):
     board.put_message(message)
 
     w1 = board.add_element(2,1,6,3, 'Company profile')
-    w2 = board.add_element(1,4,5,2, 'ICO activity')
-    w3 = board.add_element(1,6,4,2, 'Current projects activity')
-    w4 = board.add_element(5,6,3,2, 'One more widget')
+    w2 = board.add_element(1,4,5,3, 'ICO activity')
+    w3 = board.add_element(1,7,4,2, 'Current projects activity')
+    w4 = board.add_element(6,4,2,3, 'Predictive analytics')
+    w5 = board.add_element(5,8,3,2, 'One more widget')
+    w6 = board.add_element(1,9,3,1, 'Social activity')
 
     __add_widget(w1, token_name)
-    __add_widget(w2, token_name, 'diagram')
+    __add_widget(w2, token_name, '')
     __add_widget(w3, token_name, 'ico_widget')
+    __add_widget(w4, token_name, 'holders')
 
     im1 = board.add_element(1, 2, 1, 1, '')
     im2 = board.add_element(1, 3, 1, 1, '')
